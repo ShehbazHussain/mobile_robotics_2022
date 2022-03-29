@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="tf" type="static_transform_publisher" name="base_camera" args="0.1 0.1 0.1 0 1.57 0 /base_link /camera 100"></node>
+    <node pkg="phase_2" type="aruco_listener_0.py" name="aruco_listener_0" output="screen"></node>
+    <node pkg="phase_2" type="aruco_listener_1.py" name="aruco_listener_1" output="screen"></node>
+    <include file="$(find phase_2)/launch/aruco_detector_proto.launch"></include>
+</launch>
