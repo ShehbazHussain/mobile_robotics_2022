@@ -111,7 +111,7 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
-catkin_install_python(PROGRAMS src/Aruco_Check.py
+catkin_install_python(PROGRAMS src/go_to_specific_point_on_map.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 ###########
