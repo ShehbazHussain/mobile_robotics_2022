@@ -33,6 +33,7 @@ finished_map = False
 cancelled_map = False
 aruco1 = False
 aruco2 = False
+stop_locate_marker = False
 
 #function to cycle through transform arrays and set flags when found
 def callbackAruco(data):
@@ -114,6 +115,39 @@ class GoToPose():
         rospy.loginfo("Stop")
         rospy.sleep(1)
 
+def locate_marker_1():
+    
+    listener = tf.TransformListener()
+
+
+    rate = rospy.Rate(10)
+
+    while not rospy.is_shutdown():
+        try:
+            (trans_1,rot_1) = listener.lookupTransform('/map', '/fiducial_1', rospy.Time(0))
+            return trans_1, rot_1
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+            continue
+        
+        rate.sleep()
+
+def locate_marker_0():
+    
+    listener = tf.TransformListener()
+
+    rate = rospy.Rate(10)
+
+    while not rospy.is_shutdown():
+        try:
+            (trans_0,rot_0) = listener.lookupTransform('/map', '/fiducial_0', rospy.Time(0))
+            return trans_0, rot_0
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+            continue
+        
+        rate.sleep()
+
+
+
 if __name__ == '__main__':
 
     try:   
@@ -127,17 +161,15 @@ if __name__ == '__main__':
 
             print("finished_map: ", finished_map," cancelled_map: ", cancelled_map," aruco1: ", aruco1," aruco2: ", aruco2)
             
-            listener = tf.TransformListener()
-
-            try:
-                (trans_0,rot_0) = listener.lookupTransform('/map', '/fiducial_0', rospy.Time(0))
-                (trans_1,rot_1) = listener.lookupTransform('/map', '/fiducial_1', rospy.Time(0))
-            except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-                continue
+            if stop_locate_marker == False:
+                trans_0, rot_0 = locate_marker_0()
+                trans_1, rot_1 = locate_marker_1()
 
 
 
             if((aruco2 or aruco1)):   
+
+                
 
                 #Stop running clean robot?
                 robo_clean.stop()
@@ -145,6 +177,8 @@ if __name__ == '__main__':
                 aruco_marker_location = GoToPose()
 
                 if aruco1:
+
+                    stop_locate_marker = True
 
                     x = trans_0[0]
                     y = trans_0[1]
@@ -159,6 +193,8 @@ if __name__ == '__main__':
                     quaternion_aruco_marker = {'r1' : x_angle, 'r2' : y_angle, 'r3' : z_angle, 'r4' : 1.000}
 
                 if aruco2:
+
+                    stop_locate_marker = True
 
                     x = trans_1[0]
                     y = trans_1[1]
