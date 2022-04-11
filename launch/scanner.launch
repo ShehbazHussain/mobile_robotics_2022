@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="phase_2" type="aruco0_laserscan.py" name="aruco0_laserscan" output="screen"></node>
+    <node pkg="phase_2" type="aruco1_laserscan.py" name="aruco1_laserscan" output="screen"></node>
+</launch>
