@@ -32,7 +32,7 @@ def create_marker(trans, rot):
     marker.color.a = 1.0
 
     # Set the pose of the marker
-    marker.pose.position.x = trans[0] + 0.1
+    marker.pose.position.x = trans[0] 
     marker.pose.position.y = trans[1]
     marker.pose.position.z = trans[2]
     marker.pose.orientation.x = rot[0]

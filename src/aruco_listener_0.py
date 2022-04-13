@@ -35,9 +35,9 @@ def create_marker(trans, rot):
     marker.pose.position.x = trans[0]
     marker.pose.position.y = trans[1]
     marker.pose.position.z = trans[2]
-    marker.pose.orientation.x = rot[0]
-    marker.pose.orientation.y = rot[1]
-    marker.pose.orientation.z = rot[2]
+    marker.pose.orientation.x = rot[0] 
+    marker.pose.orientation.y = rot[1] 
+    marker.pose.orientation.z = rot[2] 
     marker.pose.orientation.w = 1.0
 
     return marker
